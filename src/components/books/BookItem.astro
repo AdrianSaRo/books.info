@@ -1,0 +1,104 @@
+---
+import { FOR_SALE } from "../../constants";
+import type { Item } from "../../models/Book";
+import AverageIcon from "../AverageIcon.astro";
+import Badge from "../Badge.astro";
+import GooglePlayIcon from "../GooglePlayIcon.astro";
+import PagesIcon from "../PagesIcon.astro";
+
+interface Props {
+    book: Item;
+}
+
+const { book } = Astro.props;
+const { volumeInfo, saleInfo, accessInfo } = book;
+---
+
+<li
+    class="card flex justify-center w-64 p-3 bg-[#ffffff66] backdrop-blur-sm shadow-lg rounded-lg cursor-pointer gap-6"
+>
+    <div class="flex flex-col items-center">
+        <h3 class="text-center text-white font-normal tracking-widest">
+            {volumeInfo.title}
+        </h3>
+        {
+            volumeInfo.authors &&
+                volumeInfo.authors.map((author) => <small>{author}</small>)
+        }
+        <img
+            class="rounded-lg mt-4 max-w-28 max-h-40"
+            src={volumeInfo.imageLinks?.thumbnail}
+            alt={volumeInfo.imageLinks?.thumbnail}
+        />
+    </div>
+    <div class="details hidden max-w-[70%]">
+        <div class="flex gap-3">
+            <Badge>
+                <PagesIcon />
+                <small class="text-white">{volumeInfo.pageCount ?? 0}</small>
+            </Badge>
+            <Badge>
+                <AverageIcon />
+                <small class="text-white"
+                    >{volumeInfo.averageRating ?? 0} ( {
+                        volumeInfo.ratingsCount ?? 0
+                    } )</small
+                >
+            </Badge>
+        </div>
+        {volumeInfo.description && <p class="mt-2">{volumeInfo.description}</p>}
+        {
+            saleInfo.saleability === FOR_SALE && (
+                <div class="mt-2 flex gap-2">
+                    <Badge>
+                        <a
+                            class="flex items-center gap-2"
+                            href={saleInfo.buyLink}
+                            target="_blank"
+                        >
+                            <GooglePlayIcon />
+                            {saleInfo.listPrice?.amount &&
+                            saleInfo.retailPrice?.amount &&
+                            saleInfo.listPrice?.amount -
+                                saleInfo.retailPrice?.amount ===
+                                0 ? (
+                                <small>
+                                    {saleInfo.listPrice?.amount}{" "}
+                                    {saleInfo.retailPrice?.currencyCode}
+                                </small>
+                            ) : (
+                                <small>
+                                    <del>{saleInfo.listPrice?.amount}</del>{" "}
+                                    {saleInfo.retailPrice?.amount}{" "}
+                                    {saleInfo.retailPrice?.currencyCode}
+                                </small>
+                            )}
+                        </a>
+                    </Badge>
+                    {accessInfo.epub.acsTokenLink && (
+                        <Badge>
+                            <a
+                                class="flex items-center gap-2"
+                                href={accessInfo.epub.acsTokenLink}
+                                target="_blank"
+                            >
+                                <small>EPUB</small>
+                            </a>
+                        </Badge>
+                    )}
+                    {accessInfo.pdf.acsTokenLink && (
+                        <Badge>
+                            <a
+                                class="flex items-center gap-2"
+                                href={accessInfo.pdf.acsTokenLink}
+                                target="_blank"
+                            >
+                                <small>PDF</small>
+                            </a>
+                        </Badge>
+                    )}
+                </div>
+            )
+        }
+    </div>
+</li>

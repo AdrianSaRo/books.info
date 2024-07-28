@@ -1,9 +1,9 @@
 ---
 import Logo from '../components/Logo.astro';
 import SearchBar from '../components/SearchBar.astro';
-import Books from '../components/books/Books.astro'
+import Books from '../components/books/Books.astro';
+import { BASE_URL } from '../constants';
 import Layout from '../layouts/Layout.astro';
-import { BASE_URL } from '../constants'
 import type { Book, Item } from '../models/Book';
 
 let books: Item[] = []
@@ -25,7 +25,7 @@ if (Astro.request.method === "POST") {
 
 ---
 
-<Layout title="Books.info | Home">
+<Layout title="Books.info">
 	<section class='flex-1 min-h-auto flex flex-col justify-start xl:justify-center pt-20'>
 		<Logo />	
 		<SearchBar />

@@ -1,5 +1,6 @@
 ---
 import type { Item } from "../../models/Book";
+import BookItem from "./BookItem.astro";
 
 interface Props {
     books: Item[];
@@ -8,25 +9,12 @@ interface Props {
 const { books } = Astro.props;
 ---
 
-<div class="m-12">
+<div class="mx-4 my-12">
     {
         books.length > 0 ? (
-            <ul class="books">
+            <ul class="flex justify-center flex-wrap w-full gap-8 list-none">
                 {books.map((b) => (
-                    <li class="book shadow-lg py-2 px-3 rounded-lg">
-                        <div class="initial">
-                            <h3 class="text-white">{b.volumeInfo.title}</h3>
-                            {
-                                b.volumeInfo.authors && b.volumeInfo.authors.map((author) => (
-                                    <small>{author}</small>
-                                ))
-                            }
-                            <img
-                                src={b.volumeInfo.imageLinks?.thumbnail}
-                                alt={b.volumeInfo.imageLinks?.thumbnail}
-                            />
-                        </div>
-                    </li>
+                   <BookItem book={b} />
                 ))}
             </ul>
         ) : (
@@ -35,48 +23,30 @@ const { books } = Astro.props;
     }
 </div>
 
-<style>
-    .books {
-        list-style: none;
-        margin: 0;
-        padding: 0;
+<script>
+    const cards = document.querySelectorAll(".card")
+    
+    cards.forEach((card) => {
+        card?.addEventListener("click", () => {
 
-        display: flex;
-        flex-wrap: wrap;
+            const details = card.querySelector('.details');
+    
+            const isVisible = !details?.classList.contains('hidden');
+            
+            cards.forEach(card => {
+                const details = card.querySelector('.details');
+                if (details) {
+                    details.classList.add('hidden');
+                    card.classList.remove("w-auto")
+                }
+            });
 
-        width: 100%;
-        gap: 2rem;
-    }
+            if (!isVisible) {
+                details?.classList.remove('hidden');
+                card.classList.add("w-auto")
+            }
+        });
+    })
 
-    .book {
-        display: flex;
-        width: 16rem;
-        height: auto;
-        padding: 1rem;
-        background-color: rgba(255, 255, 255, 0.4);
-        backdrop-filter: blur(5px);
-    }
 
-    .book .initial {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .book h3 {
-        font-weight: 400;
-        letter-spacing: 1.5px;
-        color: white;
-        text-align: center;
-    }
-    .book p {
-        margin: 0;
-    }
-
-    .book img {
-        border-radius: 8px;
-        margin-top: 16px;
-        max-width: 7rem;
-        max-height: 10rem;
-    }
-</style>
+</script>
