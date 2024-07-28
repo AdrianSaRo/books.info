@@ -1,0 +1,39 @@
+---
+import Logo from '../components/Logo.astro';
+import SearchBar from '../components/SearchBar.astro';
+import Books from '../components/books/Books.astro'
+import Layout from '../layouts/Layout.astro';
+import { BASE_URL } from '../constants'
+import type { Book, Item } from '../models/Book';
+
+let books: Item[] = []
+
+if (Astro.request.method === "POST") {
+  try {
+	const data = await Astro.request.formData();
+	const keywords = data.get("keywords");
+	
+	let res = await fetch(`${BASE_URL}${keywords}`)
+	const resJson = await res.json() as Book;
+	books = resJson.items ?? []
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error(error.message);
+    }
+  }
+}
+
+---
+
+<Layout title="Books.info | Home">
+	<section class='flex-1 min-h-auto flex flex-col justify-start xl:justify-center pt-20'>
+		<Logo />	
+		<SearchBar />
+		<Books books={books} />
+	</section>
+</Layout>
+
+<style>
+
+	
+</style>

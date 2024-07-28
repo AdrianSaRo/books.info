@@ -1,0 +1,82 @@
+---
+import type { Item } from "../../models/Book";
+
+interface Props {
+    books: Item[];
+}
+
+const { books } = Astro.props;
+---
+
+<div class="m-12">
+    {
+        books.length > 0 ? (
+            <ul class="books">
+                {books.map((b) => (
+                    <li class="book shadow-lg py-2 px-3 rounded-lg">
+                        <div class="initial">
+                            <h3 class="text-white">{b.volumeInfo.title}</h3>
+                            {
+                                b.volumeInfo.authors && b.volumeInfo.authors.map((author) => (
+                                    <small>{author}</small>
+                                ))
+                            }
+                            <img
+                                src={b.volumeInfo.imageLinks?.thumbnail}
+                                alt={b.volumeInfo.imageLinks?.thumbnail}
+                            />
+                        </div>
+                    </li>
+                ))}
+            </ul>
+        ) : (
+            <span class="text-white">No hay resultados</span>
+        )
+    }
+</div>
+
+<style>
+    .books {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+
+        display: flex;
+        flex-wrap: wrap;
+
+        width: 100%;
+        gap: 2rem;
+    }
+
+    .book {
+        display: flex;
+        width: 16rem;
+        height: auto;
+        padding: 1rem;
+        background-color: rgba(255, 255, 255, 0.4);
+        backdrop-filter: blur(5px);
+    }
+
+    .book .initial {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .book h3 {
+        font-weight: 400;
+        letter-spacing: 1.5px;
+        color: white;
+        text-align: center;
+    }
+    .book p {
+        margin: 0;
+    }
+
+    .book img {
+        border-radius: 8px;
+        margin-top: 16px;
+        max-width: 7rem;
+        max-height: 10rem;
+    }
+</style>
