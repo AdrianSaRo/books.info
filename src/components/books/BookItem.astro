@@ -14,24 +14,35 @@ const { book } = Astro.props;
 const { volumeInfo, saleInfo, accessInfo } = book;
 ---
 
-<li
-    class="card flex justify-center w-64 p-3 bg-[#ffffff66] backdrop-blur-sm shadow-lg rounded-lg cursor-pointer gap-6"
->
+<div class="card rounded-[4px] h-auto w-full mb-8 cursor-pointer">
     <div class="flex flex-col items-center">
-        <h3 class="text-center text-white font-normal tracking-widest">
-            {volumeInfo.title}
-        </h3>
-        {
-            volumeInfo.authors &&
-                volumeInfo.authors.map((author) => <small>{author}</small>)
-        }
-        <img
-            class="rounded-lg mt-4 max-w-28 max-h-40"
-            src={volumeInfo.imageLinks?.thumbnail}
-            alt={volumeInfo.imageLinks?.thumbnail}
-        />
+        <div class="grid place-content-center p-4 w-full bg-slate-100">
+            {
+                volumeInfo.imageLinks
+                ? <img
+                        class="rounded-lg max-w-28 max-h-40 drop-shadow-lg"
+                        src={volumeInfo.imageLinks?.thumbnail}
+                        alt={volumeInfo.imageLinks?.thumbnail}
+                    />
+                : <div class="emptyImage grid place-content-center rounded-lg w-24 h-32 drop-shadow-lg bg-slate-300">
+                    <p class="rotate-45">Empty image</p>
+                </div>
+            }
+        </div>
+        <div class="grid place-content-center p-2">
+            <h3 class="text-center text-white font-medium tracking-widest">
+                {volumeInfo.title}
+            </h3>
+            <span class="overflow-hidden whitespace-nowrap text-ellipsis  text-white text-center">
+                {
+                    volumeInfo.authors && volumeInfo.authors.map((author, index) => (
+                        <small>{author}{index < volumeInfo.authors.length - 1 && ", "}</small>
+                    ))
+                }
+            </span>
+        </div>
     </div>
-    <div class="details hidden max-w-[70%]">
+    <!-- <div class="details hidden max-w-[70%]">
         <div class="flex gap-3">
             <Badge>
                 <PagesIcon />
@@ -100,5 +111,41 @@ const { volumeInfo, saleInfo, accessInfo } = book;
                 </div>
             )
         }
-    </div>
-</li>
+    </div> -->
+</div>
+
+<style>
+    .card {
+        background-color: rgba(113, 111, 111, 0.4);
+        backdrop-filter: blur(4px);
+
+        animation: reveal linear both;
+        animation-timeline: view();
+        animation-range: entry 20% cover 30%;
+    }
+
+    .card:hover {
+        img, .emptyImage {
+            animation: zoomIn ease-in both;
+            animation-duration: 0.5s;
+        }
+    }
+
+    @keyframes reveal {
+        from {
+            opacity: 0;
+            translate: 0 50px;
+        }
+
+        to {
+            opacity: 1;
+            translate: 0 0;
+        }
+    }
+
+    @keyframes zoomIn {
+        to {
+            scale: 1.1;
+        }
+    }
+</style>

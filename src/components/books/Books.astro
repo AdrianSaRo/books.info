@@ -1,5 +1,6 @@
 ---
 import type { Item } from "../../models/Book";
+import LoupeIcon from "../LoupeIcon.astro";
 import BookItem from "./BookItem.astro";
 
 interface Props {
@@ -9,21 +10,15 @@ interface Props {
 const { books } = Astro.props;
 ---
 
-<div class="mx-4 my-12">
+<section class="columns-1 lg:columns-2 py-4 px-8 gap-x-8 text-center">
     {
         books.length > 0 ? (
-            <ul class="flex justify-center flex-wrap w-full gap-8 list-none">
-                {books.map((b) => (
-                   <BookItem book={b} />
-                ))}
-            </ul>
-        ) : (
-            <span class="text-white">No hay resultados</span>
-        )
+            books.map((book) => <BookItem book={book} />)
+        ) : (<p class="text-white">No se han encontrado resultados</p>)
     }
-</div>
+</section>
 
-<script>
+<!-- <script>
     const cards = document.querySelectorAll(".card")
     
     cards.forEach((card) => {
@@ -49,4 +44,4 @@ const { books } = Astro.props;
     })
 
 
-</script>
+</script> -->

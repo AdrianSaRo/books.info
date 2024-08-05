@@ -1,5 +1,6 @@
 ---
 import Background from '../components/Background.astro';
+import NavBar from '../components/NavBar.astro';
 
 interface Props {
 	title: string;
@@ -19,13 +20,11 @@ const { title } = Astro.props;
 		<title>{title}</title>
 	</head>
 	<body>
-		<div class='flex flex-col justify-between m-auto xl:gap-x-24 xl:mt-0'>
-			<!-- <Navigation /> -->
+		<NavBar />
 
-			<main class='flex-1 relative px-6'>
-				<slot />
-			</main>
-		</div>
+		<main class='flex-1 relative px-6 mb-10'>
+			<slot />
+		</main>
 	</body>
 </html>
 <style is:global>
