@@ -1,22 +1,26 @@
-### ${\textsf{BOOKS\color{yellow}.info}}$
 
-![Vercel Deploy](https://deploy-badge.vercel.app/vercel/books-info-prod) [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
+<div align="center">
+  <h1>BOOKS.info</h1>
+  
+![Vercel Deploy](https://deploy-badge.vercel.app/vercel/books-info-prod)
+[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
+</div>
 
 <p align="center">
-  <img width="658" alt="image" src="https://github.com/user-attachments/assets/9748bea9-0808-4371-a016-ef5127e0adde">
+  <img width="658" alt="image" src="https://github.com/user-attachments/assets/10c58de8-7804-492a-8bb4-2674013323bf">
 </p>
 
-## Tech Stack
+## ⚙️ Tech Stack
 
 **Client:** Astro, TailwindCSS
 
 **Server:** Vercel adapter
 
-## API Reference
+## 🔎 API Reference
 
 [Google Books API](https://developers.google.com/books/docs/v1/reference/volumes/list?hl=es-419)
 
-## Run Locally
+## 🚀 Run Locally
 
 Clone the project
 
